@@ -3,8 +3,6 @@ FROM picpay/php:7.2-fpm-base
 COPY ./                             /app
 COPY ./support/docker/config/       /
 
-RUN pecl install -f mongodb-1.5.3
-
 RUN composer install \
     && composer dump-autoload -a \
     # && php artisan optimize \

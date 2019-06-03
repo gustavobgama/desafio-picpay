@@ -1,19 +1,15 @@
 <?php
 
-require_once __DIR__.'/../vendor/autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
 try {
-    (new Dotenv\Dotenv(__DIR__.'/../'))->load();
+    (new Dotenv\Dotenv(__DIR__ . '/../'))->load();
 } catch (Dotenv\Exception\InvalidPathException $e) {
     //
 }
 $app = new Laravel\Lumen\Application(dirname(__DIR__));
 
 $app->withFacades();
-
-if(env('DB_CONNECTION') === 'mongodb') {
-    $app->register(Jenssegers\Mongodb\MongodbServiceProvider::class);
-}
 
 $app->withEloquent();
 
@@ -34,7 +30,7 @@ $app->configure('logging');
 $app->router->group([
     'namespace' => 'App\Http\Controllers',
 ], function ($router) {
-    require __DIR__.'/../routes/api.php';
+    require __DIR__ . '/../routes/api.php';
 });
 
 return $app;

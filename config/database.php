@@ -6,11 +6,6 @@ return [
     'default' => env('DB_CONNECTION'),
 
     'connections' => [
-        'mongodb' => [
-            'driver' => 'mongodb',
-            'dsn' => 'mongodb://' . env('DB_URL_MONGODB', 'localhost') . ':27017',
-            'database' => 'picpay-backend'
-        ],
 
         'mysql' => [
             'driver'    => 'mysql',
