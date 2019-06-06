@@ -23,6 +23,8 @@ $app->singleton(
     App\Console\Kernel::class
 );
 
+$app->register(Pearl\RequestValidate\RequestServiceProvider::class);
+
 $app->configure('app');
 $app->configure('database');
 $app->configure('logging');
