@@ -45,4 +45,31 @@ class UserTest extends TestCase
                 'message' => "O campo {$missingFieldForMessage} é obrigatório.",
             ]);
     }
+
+    /**
+     * @test
+     */
+    public function itTriesToCreateAUser()
+    {
+        $this->post('/users', $this->content)
+            ->seeJsonEquals([
+                'id' => 1,
+                'cpf' => $this->content['cpf'],
+                'email' => $this->content['email'],
+                'full_name' => $this->content['full_name'],
+                'password' => $this->content['password'],
+                'phone_number' => $this->content['phone_number'],
+            ]);
+
+        $this->assertEquals(200, $this->response->getStatusCode());
+
+        $this->seeInDatabase('users', [
+            'id' => 1,
+            'cpf' => $this->content['cpf'],
+            'email' => $this->content['email'],
+            'full_name' => $this->content['full_name'],
+            'password' => $this->content['password'],
+            'phone_number' => $this->content['phone_number'],
+        ]);
+    }
 }

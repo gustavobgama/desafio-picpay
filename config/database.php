@@ -6,7 +6,10 @@ return [
     'default' => env('DB_CONNECTION'),
 
     'connections' => [
-
+        'sqlite' => [
+            'driver' => 'sqlite',
+            'database' => ':memory:',
+        ],
         'mysql' => [
             'driver'    => 'mysql',
             'host'      => env('DB_URL_MYSQL', 'localhost'),
