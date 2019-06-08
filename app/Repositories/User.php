@@ -15,4 +15,18 @@ class User implements UserInterface
 
         return $user->toArray();
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function list(?string $query): array
+    {
+        if (isset($query)) {
+            $users = UserModel::where('full_name', 'like', "%{$query}%")->get();
+        } else {
+            $users = UserModel::all();
+        }
+
+        return $users->sortBy('full_name')->toArray();
+    }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\User as UserRequest;
 use App\Repositories\UserInterface;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -24,12 +25,23 @@ class UserController extends Controller
     }
 
     /**
+     * List users.
+     *
+     * @param Request $request
+     * @return array
+     */
+    public function list(Request $request): array
+    {
+        return $this->user->list($request->get('q'));
+    }
+
+    /**
      * Store user.
      *
      * @param UserRequest $request
-     * @return Response
+     * @return array
      */
-    public function store(UserRequest $request)
+    public function store(UserRequest $request): array
     {
         return $this->user->create($request->all());
     }
