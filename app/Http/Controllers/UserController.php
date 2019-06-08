@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\User as UserRequest;
 use App\Repositories\UserInterface;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class UserController extends Controller
 {
@@ -30,9 +32,29 @@ class UserController extends Controller
      * @param Request $request
      * @return array
      */
-    public function list(Request $request): array
+    public function index(Request $request): array
     {
         return $this->user->list($request->get('q'));
+    }
+
+    /**
+     * Show a specific user.
+     *
+     * @param int $id
+     * @return JsonResponse
+     */
+    public function show(int $id): JsonResponse
+    {
+        try {
+            $response = $this->user->show($id);
+
+            return response()->json($response);
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                'code' => '404',
+                'message' => 'Usuário não encontrado',
+            ], 404);
+        }
     }
 
     /**

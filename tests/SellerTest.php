@@ -9,17 +9,6 @@ class SellerTest extends TestCase
 {
     use DatabaseMigrations;
 
-    /**
-     * @var array
-     */
-    protected $parameters = [
-        'user_id' => 1,
-        'username' => 'joaosilva',
-        'cnpj' => '11111111111111',
-        'fantasy_name' => 'Company fantasy name',
-        'social_name' => 'Company social name',
-    ];
-
     public function missingFieldProvider()
     {
         return [

@@ -30,6 +30,17 @@ abstract class TestCase extends BaseTestCase
     ];
 
     /**
+     * @var array
+     */
+    protected $parameters = [
+        'user_id' => 1,
+        'username' => 'joaosilva',
+        'cnpj' => '11111111111111',
+        'fantasy_name' => 'Company fantasy name',
+        'social_name' => 'Company social name',
+    ];
+
+    /**
      * Creates the application.
      *
      * @return \Laravel\Lumen\Application

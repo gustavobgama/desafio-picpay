@@ -12,7 +12,8 @@
 */
 
 $router->group(['prefix' => 'users'], function () use ($router) {
-    $router->get('', 'UserController@list');
+    $router->get('', 'UserController@index');
+    $router->get('/{id}', 'UserController@show');
     $router->post('', 'UserController@store');
 
     $router->post('consumers', 'ConsumerController@store');

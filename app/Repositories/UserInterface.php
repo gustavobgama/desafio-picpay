@@ -19,4 +19,12 @@ interface UserInterface
      * @return array
      */
     public function list(?string $query): array;
+
+    /**
+     * Show a specific user.
+     *
+     * @param int $id
+     * @return array
+     */
+    public function show(int $id): array;
 }
