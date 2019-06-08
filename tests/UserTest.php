@@ -9,28 +9,6 @@ class UserTest extends TestCase
 {
     use DatabaseMigrations;
 
-    /**
-     * @var array
-     */
-    protected $userOne = [
-        'cpf' => '11111111111',
-        'email' => 'joao.silva@email.com',
-        'full_name' => 'Joao Silva',
-        'password' => 'lorem',
-        'phone_number' => '(11) 1111-1111',
-    ];
-
-    /**
-     * @var array
-     */
-    protected $userTwo = [
-        'cpf' => '22222222222',
-        'email' => 'maria.silva@email.com',
-        'full_name' => 'Maria Silva',
-        'password' => 'ipsum',
-        'phone_number' => '(11) 2222-2222',
-    ];
-
     public function missingFieldProvider()
     {
         return [
@@ -52,6 +30,7 @@ class UserTest extends TestCase
 
         $missingFieldForMessage = str_replace('_', ' ', $missingField);
         $this->post('/users', $this->userOne)
+            ->seeStatusCode(422)
             ->seeJsonEquals([
                 'code' => '422',
                 'message' => "O campo {$missingFieldForMessage} é obrigatório.",
@@ -67,6 +46,7 @@ class UserTest extends TestCase
         factory(User::class)->create($this->userTwo);
 
         $this->get('/users')
+            ->seeStatusCode(200)
             ->seeJsonEquals([
                 [
                     'id' => 1,
@@ -98,6 +78,7 @@ class UserTest extends TestCase
         factory(User::class)->create($this->userTwo);
 
         $this->get('/users?q=maria')
+            ->seeStatusCode(200)
             ->seeJsonEquals([
                 [
                     'id' => 2,
@@ -120,6 +101,7 @@ class UserTest extends TestCase
         factory(User::class)->create($this->userTwo);
 
         $this->get('/users?q=UserNotExistent')
+            ->seeStatusCode(200)
             ->seeJsonEquals([]);
     }
 
@@ -129,6 +111,7 @@ class UserTest extends TestCase
     public function itTriesToCreateAUser()
     {
         $this->post('/users', $this->userOne)
+            ->seeStatusCode(200)
             ->seeJsonEquals([
                 'id' => 1,
                 'cpf' => $this->userOne['cpf'],
@@ -137,8 +120,6 @@ class UserTest extends TestCase
                 'password' => $this->userOne['password'],
                 'phone_number' => $this->userOne['phone_number'],
             ]);
-
-        $this->assertEquals(200, $this->response->getStatusCode());
 
         $this->seeInDatabase('users', [
             'id' => 1,
