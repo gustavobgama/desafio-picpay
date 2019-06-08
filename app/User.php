@@ -36,4 +36,14 @@ class User extends Model
     {
         return $this->hasOne(Consumer::class);
     }
+
+    /**
+     * Get consumer.
+     *
+     * @return HasOne
+     */
+    public function seller(): HasOne
+    {
+        return $this->hasOne(Seller::class);
+    }
 }

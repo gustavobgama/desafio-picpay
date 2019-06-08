@@ -10,8 +10,10 @@ use Faker \ {
 use App\Repositories \ {
     ConsumerInterface,
     UserInterface,
+    SellerInterface,
     Consumer,
-    User
+    User,
+    Seller
 };
 
 class AppServiceProvider extends ServiceProvider
@@ -25,6 +27,7 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->bind(UserInterface::class, User::class);
         $this->app->bind(ConsumerInterface::class, Consumer::class);
+        $this->app->bind(SellerInterface::class, Seller::class);
 
         // configure faker to use the pt_BR provider
         if ($this->app->environment('local', 'testing')) {

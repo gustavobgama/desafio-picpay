@@ -15,13 +15,6 @@ use Faker\Generator as Faker;
 |
 */
 
-// 'cpf' => ['cpf'],
-// 'email' => ['email'],
-// 'full_name' => ['full_name'],
-// 'password' => ['password'],
-// 'phone_number' => ['phone_number'],
-
-
 $factory->define(User::class, function (Faker $faker) {
     return [
         'cpf' => $faker->cpf(false),

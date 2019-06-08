@@ -5,7 +5,7 @@ namespace Tests;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use App\User;
 
-class ConsumerTest extends TestCase
+class SellerTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -15,6 +15,9 @@ class ConsumerTest extends TestCase
     protected $parameters = [
         'user_id' => 1,
         'username' => 'joaosilva',
+        'cnpj' => '11111111111111',
+        'fantasy_name' => 'Company fantasy name',
+        'social_name' => 'Company social name',
     ];
 
     public function missingFieldProvider()
@@ -22,6 +25,9 @@ class ConsumerTest extends TestCase
         return [
             'user_id' => ['user_id'],
             'username' => ['username'],
+            'cnpj' => ['cnpj'],
+            'fantasy_name' => ['fantasy_name'],
+            'social_name' => ['social_name'],
         ];
     }
 
@@ -29,12 +35,12 @@ class ConsumerTest extends TestCase
      * @test
      * @dataProvider missingFieldProvider
      */
-    public function itTriesToCreateAConsumerWithAMissingField($missingField)
+    public function itTriesToCreateASellerWithAMissingField($missingField)
     {
         unset($this->parameters[$missingField]);
 
         $missingFieldForMessage = str_replace('_', ' ', $missingField);
-        $this->post('/users/consumers', $this->parameters)
+        $this->post('/users/sellers', $this->parameters)
             ->seeStatusCode(422)
             ->seeJsonEquals([
                 'code' => '422',
@@ -45,11 +51,11 @@ class ConsumerTest extends TestCase
     /**
      * @test
      */
-    public function itTriesToCreateAConsumerForAnExistentUser()
+    public function itTriesToCreateASellerForAnExistentUser()
     {
         factory(User::class)->create($this->userOne);
 
-        $this->post('/users/consumers', $this->parameters)
+        $this->post('/users/sellers', $this->parameters)
             ->seeStatusCode(200)
             ->seeJsonEquals([
                 'id' => 1,
@@ -67,18 +73,20 @@ class ConsumerTest extends TestCase
             'phone_number' => $this->userOne['phone_number'],
         ]);
 
-        $this->seeInDatabase('consumers', [
+        $this->seeInDatabase('sellers', [
             'user_id' => 1,
-            'balance' => 0,
+            'cnpj' => $this->parameters['cnpj'],
+            'fantasy_name' => $this->parameters['fantasy_name'],
+            'social_name' => $this->parameters['social_name'],
         ]);
     }
 
     /**
      * @test
      */
-    public function itTriesToCreateAConsumerForANonExistentUser()
+    public function itTriesToCreateASellerForANonExistentUser()
     {
-        $this->post('/users/consumers', $this->parameters)
+        $this->post('/users/sellers', $this->parameters)
             ->seeStatusCode(404)
             ->seeJsonEquals([
                 'code' => '404',

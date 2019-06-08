@@ -16,4 +16,5 @@ $router->group(['prefix' => 'users'], function () use ($router) {
     $router->post('', 'UserController@store');
 
     $router->post('consumers', 'ConsumerController@store');
+    $router->post('sellers', 'SellerController@store');
 });
