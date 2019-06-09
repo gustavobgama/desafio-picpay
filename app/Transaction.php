@@ -14,8 +14,30 @@ class Transaction extends Model
     /**
      * @inheritDoc
      */
+    protected $dateFormat = 'Y-m-d\TH:i:s.u\Z';
+
+    /**
+     * @inheritDoc
+     */
     protected $hidden = [
         'created_at',
         'updated_at',
     ];
+
+    /**
+     * @inheritDoc
+     */
+    protected $appends = [
+        'transaction_date',
+    ];
+
+    /**
+     * Get created_at.
+     *
+     * @return string
+     */
+    public function getTransactionDateAttribute(): string
+    {
+        return $this->attributes['created_at'];
+    }
 }
