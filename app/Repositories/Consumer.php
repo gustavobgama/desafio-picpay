@@ -2,8 +2,11 @@
 
 namespace App\Repositories;
 
-use App\Consumer as ConsumerModel;
-use App\User;
+use App \ {
+    Consumer as ConsumerModel,
+    Account,
+    User
+};
 use Illuminate\Support\Facades\DB;
 use Exception;
 
@@ -20,7 +23,9 @@ class Consumer implements ConsumerInterface
             $user->username = $username;
             $user->save();
 
+            $account = Account::create();
             $consumer = new ConsumerModel();
+            $consumer->account_id = $account->id;
             $consumer = $user->consumer()->save($consumer);
             DB::commit();
         } catch (Exception $e) {

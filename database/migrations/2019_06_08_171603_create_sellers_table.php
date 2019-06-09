@@ -16,12 +16,14 @@ class CreateSellersTable extends Migration
         Schema::create('sellers', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id');
+            $table->integer('account_id');
             $table->string('cnpj')->unique();
             $table->string('fantasy_name');
             $table->string('social_name');
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('account_id')->references('id')->on('accounts');
         });
     }
 

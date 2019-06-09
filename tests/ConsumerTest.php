@@ -69,7 +69,12 @@ class ConsumerTest extends TestCase
 
         $this->seeInDatabase('consumers', [
             'user_id' => 1,
-            'balance' => 0,
+            'account_id' => 1,
+        ]);
+
+        $this->seeInDatabase('accounts', [
+            'id' => 1,
+            'balance' => 0.00,
         ]);
     }
 

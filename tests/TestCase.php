@@ -32,6 +32,17 @@ abstract class TestCase extends BaseTestCase
     /**
      * @var array
      */
+    protected $userThree = [
+        'cpf' => '33333333333',
+        'email' => 'jose.pereira@email.com',
+        'full_name' => 'Jose Pereira',
+        'password' => 'dolor',
+        'phone_number' => '(11) 3333-3333',
+    ];
+
+    /**
+     * @var array
+     */
     protected $parameters = [
         'user_id' => 1,
         'username' => 'joaosilva',

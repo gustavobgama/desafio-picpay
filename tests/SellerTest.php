@@ -64,9 +64,15 @@ class SellerTest extends TestCase
 
         $this->seeInDatabase('sellers', [
             'user_id' => 1,
+            'account_id' => 1,
             'cnpj' => $this->parameters['cnpj'],
             'fantasy_name' => $this->parameters['fantasy_name'],
             'social_name' => $this->parameters['social_name'],
+        ]);
+
+        $this->seeInDatabase('accounts', [
+            'id' => 1,
+            'balance' => 0.00,
         ]);
     }
 

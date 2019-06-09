@@ -2,8 +2,11 @@
 
 namespace App\Repositories;
 
-use App\Seller as SellerModel;
-use App\User;
+use App \ {
+    Seller as SellerModel,
+    Account,
+    User
+};
 use Illuminate\Support\Facades\DB;
 use Exception;
 
@@ -25,7 +28,9 @@ class Seller implements SellerInterface
             $user->username = $username;
             $user->save();
 
+            $account = Account::create();
             $seller = new SellerModel();
+            $seller->account_id = $account->id;
             $seller->cnpj = $cnpj;
             $seller->fantasy_name = $fantasyName;
             $seller->social_name = $socialName;
