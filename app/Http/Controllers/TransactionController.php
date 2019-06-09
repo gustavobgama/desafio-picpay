@@ -6,6 +6,7 @@ use App\Repositories\TransactionInterface;
 use App\Http\Requests\Transaction;
 use GuzzleHttp\Client;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class TransactionController extends Controller
 {
@@ -30,6 +31,26 @@ class TransactionController extends Controller
     {
         $this->transaction = $transaction;
         $this->client = $client;
+    }
+
+    /**
+     * Show a specific transaction.
+     *
+     * @param integer $id
+     * @return JsonResponse
+     */
+    public function show(int $id): JsonResponse
+    {
+        try {
+            $response = $this->transaction->show($id);
+
+            return response()->json($response);
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                'code' => '404',
+                'message' => 'Transação não encontrada',
+            ], 404);
+        }
     }
 
     /**

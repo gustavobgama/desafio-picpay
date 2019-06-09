@@ -31,6 +31,12 @@ class Transaction extends Model
         'transaction_date',
     ];
 
+    protected $casts = [
+        'payee_id' => 'integer',
+        'payer_id' => 'integer',
+        'value' => 'integer',
+    ];
+
     /**
      * Get created_at.
      *

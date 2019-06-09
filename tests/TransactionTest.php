@@ -6,7 +6,8 @@ use Laravel\Lumen\Testing\DatabaseMigrations;
 use App \ {
     User,
     Consumer,
-    Seller
+    Seller,
+    Transaction
 };
 
 class TransactionTest extends TestCase
@@ -17,6 +18,16 @@ class TransactionTest extends TestCase
      * @var array
      */
     protected $transaction;
+
+    /**
+     * @var int
+     */
+    protected $accountUserOne;
+
+    /**
+     * @var int
+     */
+    protected $accountUserTwo;
 
     /**
      * @inheritDoc
@@ -31,9 +42,11 @@ class TransactionTest extends TestCase
         $userTwo = factory(User::class)->create($this->userTwo);
         $userTwo->consumer()->save(factory(Consumer::class)->make());
 
+        $this->accountUserOne = $userOne->consumer->account->id;
+        $this->accountUserTwo = $userTwo->consumer->account->id;
         $this->transaction = [
-            'payee_id' => $userOne->consumer->account->id,
-            'payer_id' => $userTwo->consumer->account->id,
+            'payee_id' => $this->accountUserOne,
+            'payer_id' => $this->accountUserTwo,
             'value' => 50,
         ];
     }
@@ -72,7 +85,7 @@ class TransactionTest extends TestCase
         $this->transaction['value'] = 500;
         $this->post('/transactions', $this->transaction)
             ->seeStatusCode(401)
-            ->seeJson([
+            ->seeJsonEquals([
                 'code' => '401',
                 'message' => 'Transação não autorizada',
             ]);
@@ -135,9 +148,42 @@ class TransactionTest extends TestCase
 
         $this->post('/transactions', $this->transaction)
             ->seeStatusCode(422)
-            ->seeJson([
+            ->seeJsonEquals([
                 'code' => '422',
                 'message' => 'Uma das contas informadas não existe.',
+            ]);
+    }
+
+    /**
+     * @test
+     */
+    public function itTriesToRetrieveOneTransaction()
+    {
+        factory(Transaction::class)->create([
+            'payee_id' => $this->accountUserOne,
+            'payer_id' => $this->accountUserTwo,
+            'value' => 50,
+        ]);
+        $this->get('/transactions/1')
+            ->seeStatusCode(200)
+            ->seeJson([
+                'id' => 1,
+                'payee_id' => $this->accountUserOne,
+                'payer_id' => $this->accountUserTwo,
+                'value' => 50,
+            ]);
+    }
+
+    /**
+     * @test
+     */
+    public function itTriesToRetrieveAUnexistentTransaction()
+    {
+        $this->get('/transactions/1')
+            ->seeStatusCode(404)
+            ->seeJsonEquals([
+                'code' => '404',
+                'message' => 'Transação não encontrada',
             ]);
     }
 }

@@ -5,6 +5,14 @@ namespace App\Repositories;
 interface TransactionInterface
 {
     /**
+     * Show transaction.
+     *
+     * @param integer $id
+     * @return array
+     */
+    public function show(int $id): array;
+
+    /**
      * Create transaction.
      *
      * @param integer $payeeId

@@ -23,6 +23,7 @@ $router->group(['prefix' => 'users'], function () use ($router) {
 
 $router->group(['prefix' => 'transactions'], function () use ($router) {
     $router->post('', 'TransactionController@store');
+    $router->get('/{id}', 'TransactionController@show');
 
     // "External" service for authorization, for sake of simplicity is included with current API
     $router->post('authorize', function (Request $request) {
