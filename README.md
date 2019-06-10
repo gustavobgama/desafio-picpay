@@ -4,8 +4,8 @@
 
 Para executar os testes basta executar os seguintes passos:
 
-    $ git clone git@bitbucket.org:gustavobgama/desafiopicpay.git
-    $ docker-compose up -d
+    $ git clone git@bitbucket.org:gustavobgama/desafiopicpay.git <sua-pasta>
+    $ cd <sua-pasta> && docker-compose up --build -d
     $ docker-compose exec users-api-php sh -c "composer install && ./vendor/bin/phpunit --testdox"
 
 Para criar a estrutura de banco de dados basta:
