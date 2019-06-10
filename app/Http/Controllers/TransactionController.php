@@ -66,33 +66,8 @@ class TransactionController extends Controller
         $payerId = $request->get('payer_id');
         $value = $request->get('value');
 
-        if ($this->transactionIsValid($value)) {
-            $response = $this->transaction->create($payeeId, $payerId, $value);
+        $response = $this->transaction->create($payeeId, $payerId, $value);
 
-            return response()->json($response);
-        } else {
-            return response()->json([
-                'code' => '401',
-                'message' => 'Transação não autorizada',
-            ], 401);
-        }
-    }
-
-    /**
-     * Check if transaction is valid.
-     *
-     * @param float $value
-     * @return boolean
-     */
-    protected function transactionIsValid(float $value): bool
-    {
-        // TODO: move this method to Transaction validation request class
-        try {
-            $response = $this->client->post('/transactions/authorize', ['json' => ['value' => $value]]);
-        } catch (\Exception $e) {
-            return false;
-        }
-
-        return ($response->getStatusCode() === 200);
+        return response()->json($response);
     }
 }

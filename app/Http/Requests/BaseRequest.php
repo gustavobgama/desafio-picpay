@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use Pearl\RequestValidate\RequestAbstract;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Contracts\Validation\Rule;
 
 class BaseRequest extends RequestAbstract
 {
@@ -23,12 +24,20 @@ class BaseRequest extends RequestAbstract
      */
     protected function formatErrors(Validator $validator)
     {
+        $statusCode = 422;
+        $failedRule = key(array_values($validator->failed())[0]);
+        if (class_exists($failedRule) && $interfaces = class_implements($failedRule)) {
+            if (isset($interfaces[Rule::class])) {
+                $statusCode = (new $failedRule)->getStatusCode();
+            }
+        }
+
         // show just one error message (the first)
         $error = [
-            'code' => '422',
+            'code' => (string)$statusCode,
             'message' => $validator->getMessageBag()->first(),
         ];
 
-        return new JsonResponse($error, 422);
+        return new JsonResponse($error, $statusCode);
     }
 }
