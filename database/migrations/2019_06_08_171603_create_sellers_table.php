@@ -15,8 +15,8 @@ class CreateSellersTable extends Migration
     {
         Schema::create('sellers', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id');
-            $table->integer('account_id');
+            $table->integer('user_id')->unsigned();
+            $table->integer('account_id')->unsigned();
             $table->string('cnpj')->unique();
             $table->string('fantasy_name');
             $table->string('social_name');

@@ -15,12 +15,12 @@ class CreateConsumersTable extends Migration
     {
         Schema::create('consumers', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id');
-            $table->integer('account_id');
+            $table->integer('user_id')->unsigned();
+            $table->integer('account_id')->unsigned();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('account_id')->references('id')->on('accounts');
+            // $table->foreign('account_id')->references('id')->on('accounts');
         });
     }
 
