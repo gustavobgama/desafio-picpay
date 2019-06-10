@@ -1,5 +1,17 @@
 # Desafio Backend
 
+## Como testar
+
+Para executar os testes basta executar os seguintes passos:
+
+    $ git clone git@bitbucket.org:gustavobgama/desafiopicpay.git
+    $ docker-compose up -d
+    $ docker-compose exec users-api-php sh -c "composer install && ./vendor/bin/phpunit --testdox"
+
+Para criar a estrutura de banco de dados basta:
+
+    $ docker-compose exec users-api-php php artisan migrate
+
 ## Problema
 O PicPay é uma empresa de pagamentos que visa revolucionar a forma com que lidamos com dinheiro em nosso dia-a-dia. Um dos passos necessários para completarmos essa missão é implementar a criação de diferentes tipos de contas para utilização do nosso aplicativo. 
 É importante lembrar que o seu sistema será integrado aos nossos painéis internos e ao aplicativo.
