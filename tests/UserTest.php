@@ -2,7 +2,6 @@
 
 namespace Tests;
 
-use Laravel\Lumen\Testing\DatabaseMigrations;
 use App \ {
     User,
     Consumer,
@@ -11,7 +10,6 @@ use App \ {
 
 class UserTest extends TestCase
 {
-    use DatabaseMigrations;
 
     public function missingFieldProvider()
     {

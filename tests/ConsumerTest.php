@@ -2,13 +2,10 @@
 
 namespace Tests;
 
-use Laravel\Lumen\Testing\DatabaseMigrations;
 use App\User;
 
 class ConsumerTest extends TestCase
 {
-    use DatabaseMigrations;
-
     /**
      * @var array
      */
