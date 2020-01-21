@@ -8,6 +8,12 @@ use App \ {
     Seller,
     Transaction
 };
+use GuzzleHttp\ {
+    Client,
+    Handler\MockHandler,
+    HandlerStack,
+    Psr7\Response
+};
 
 class TransactionTest extends TestCase
 {
@@ -46,6 +52,16 @@ class TransactionTest extends TestCase
             'payer_id' => $this->accountUserTwo,
             'value' => 50,
         ];
+    }
+
+    protected function createMockedResponse()
+    {
+        $mock = new MockHandler([
+            new Response(200, [], ''),
+        ]);
+        $handlerStack = HandlerStack::create($mock);
+        $client = new Client(['handler' => $handlerStack]);
+        $this->app->instance(Client::class, $client);
     }
 
     public function missingFieldProvider()
@@ -93,6 +109,7 @@ class TransactionTest extends TestCase
      */
     public function itTriesToCreateATransactionBetweenExistentConsumers()
     {
+        $this->createMockedResponse();
         $this->post('/transactions', $this->transaction)
             ->seeStatusCode(200)
             ->seeJson([
@@ -114,6 +131,7 @@ class TransactionTest extends TestCase
      */
     public function itTriesToCreateATransactionBetweenAConsumerAndASeller()
     {
+        $this->createMockedResponse();
         // register the seller
         $userThree = factory(User::class)->create($this->userThree);
         $userThree->seller()->save(factory(Seller::class)->make());
