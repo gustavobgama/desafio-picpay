@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/gustavobgama/desafio-picpay.svg?branch=master)](https://travis-ci.org/gustavobgama/desafio-picpay)
+
 # Desafio Backend
 
 ## Como testar
