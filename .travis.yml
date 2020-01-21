@@ -1,0 +1,20 @@
+language: php
+
+cache:
+  directories:
+    - $HOME/.composer/cache
+
+php:
+  - '7.2'
+  - '7.3'
+  - '7.4'
+
+install:
+  - composer install
+
+script:
+  - ./vendor/bin/phpunit --testdox
+
+branches:
+  only:
+    - master
