@@ -22,7 +22,7 @@ class BaseRequest extends RequestAbstract
     /**
      * @inheritDoc
      */
-    protected function formatErrors(Validator $validator)
+    protected function formatErrors(Validator $validator): JsonResponse
     {
         $statusCode = 422;
         $failedRule = key(array_values($validator->failed())[0]);
